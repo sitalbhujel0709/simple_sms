@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 export class AuthService {
   private prisma = prisma;
-  async registerUser({name,email,password,role}: RegisterDTO):Promise<Omit<User, "passwordHash">>{
+  async registerUser({name,email,password}: RegisterDTO):Promise<Omit<User, "passwordHash">>{
     const existingUser = await this.prisma.user.findUnique({
       where:{
         email
@@ -20,7 +20,7 @@ export class AuthService {
         name,
         email,
         passwordHash,
-        role
+        role: "ADMIN"
       }
     })
     const {passwordHash:_,...userWithoutPassword} = user;

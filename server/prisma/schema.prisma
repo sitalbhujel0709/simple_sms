@@ -17,6 +17,11 @@ enum Role {
   TEACHER
   ADMIN
 }
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
 model User {
   id Int @id @default(autoincrement())
   name String
@@ -26,4 +31,100 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  studentProfile StudentProfile?
+  teacherProfile TeacherProfile?
+}
+
+model StudentProfile {
+  userId Int @id
+  dateOfBirth DateTime 
+  address String
+  gender Gender 
+  phoneNumber String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  enrollments Enrollment[]
+}
+
+model TeacherProfile {
+  userId Int @id
+  dateOfBirth DateTime
+  address String
+  gender Gender
+  phoneNumber String @unique  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])  
+  subjects SubjectTeacher[]
+}
+
+model Class {
+  id Int @id @default(autoincrement())
+  name String
+  section String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subjects Subject[]
+  @@unique([name, section])
+  enrollments Enrollment[]
+}
+
+model Subject {
+  id Int @id @default(autoincrement())
+  subjectName String
+  subjectCode String @unique
+  classId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  class Class @relation(fields: [classId], references: [id])
+  teachers SubjectTeacher[]
+}
+
+model AcademicYear {
+  id Int @id @default(autoincrement())
+  year String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id Int @id @default(autoincrement())
+  studentId Int
+  classId Int
+  academicYearId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student StudentProfile @relation(fields: [studentId], references: [userId])
+  class Class @relation(fields: [classId], references: [id])
+  academicYear AcademicYear @relation(fields: [academicYearId], references: [id])
+  @@unique([studentId, classId, academicYearId])
+}
+
+model SubjectTeacher {
+  id Int @id @default(autoincrement())
+  teacherId Int
+  subjectId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teacher TeacherProfile @relation(fields: [teacherId], references: [userId])
+  subject Subject @relation(fields: [subjectId], references: [id])
+  @@unique([teacherId, subjectId])
 }
