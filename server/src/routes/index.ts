@@ -6,6 +6,7 @@ import classroomRouter from "../modules/classroom/class.route";
 import subjectRouter from "../modules/subjects/subject.route";
 import AcademicYearRouter from "../modules/academic_years/academicyear.route";
 import EnrollmentRouter from "../modules/enrollments/enrollment.route";
+import TeacherSubjectRouter from "../modules/teacher_subjects/teachersubject.route";
 
 const router = Router();
 
@@ -16,4 +17,5 @@ router.use("/classrooms", classroomRouter);
 router.use("/subjects", subjectRouter);
 router.use("/academic-years",AcademicYearRouter)
 router.use("/enrollments",EnrollmentRouter)
+router.use("/subject-teachers",TeacherSubjectRouter)
 export default router;
