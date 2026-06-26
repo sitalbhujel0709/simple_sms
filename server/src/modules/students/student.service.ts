@@ -43,7 +43,18 @@ export class StudentService {
     return student;
   }
   async getAllStudents(): Promise<StudentProfile[]> {
-    const students = await this.prisma.studentProfile.findMany({});
+    const students = await this.prisma.studentProfile.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+            role: true,
+          }
+        }
+
+      }
+    });
     return students;
   }
 
@@ -95,11 +106,11 @@ export class StudentService {
         user:
           data.name || data.email
             ? {
-                update: {
-                  ...(data.name && { name: data.name }),
-                  ...(data.email && { email: data.email }),
-                },
-              }
+              update: {
+                ...(data.name && { name: data.name }),
+                ...(data.email && { email: data.email }),
+              },
+            }
             : undefined,
       },
       include: {

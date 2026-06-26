@@ -1,8 +1,40 @@
 "use client";
+import axiosInstance from "@/lib/axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const TeacherModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
+  const [name,setName] = useState("");
+  const [phone,setPhone] = useState("");
+  const [address,setAddress] = useState("");
+  const [gender,setGender] = useState("");
+  const [dateOfBirth,setDateOfBirth] = useState("");
+
+  const router = useRouter();
+
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) =>{
+    e.preventDefault();
+    try{
+      const res = await axiosInstance.post("/teachers",{
+        name,
+        email,
+        password,
+        phoneNumber: phone,
+        address,
+        gender: gender.toUpperCase(),
+        dateOfBirth
+      });
+      setIsOpen(false);
+      router.refresh();
+    }catch(error){
+      console.log(error);
+    }
+  };
+
   return (
     <div className="relative">
       <button
@@ -12,7 +44,7 @@ const TeacherModal = () => {
         Add Teacher
       </button>
       {isOpen && (
-        <div className={`fixed inset-0 bg-gray-300/50 backdrop-blur-sm`}>
+        <div className={`fixed z-10 inset-0 bg-gray-300/50 backdrop-blur-sm`}>
           <div className="flex justify-center items-center h-screen">
             <div className="max-w-sm w-full border border-gray-300 bg-white mx-auto p-2 ">
               <div className="flex justify-between items-center p-4">
@@ -24,12 +56,14 @@ const TeacherModal = () => {
                   Close
                 </button>
               </div>
-              <form className="p-2 space-y-2">
+              <form onSubmit={handleSubmit} className="p-2 space-y-2">
                 <div className="flex flex-col gap-1">
                   <label htmlFor="name">Name:</label>
                   <input
                     type="text"
                     id="name"
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
                     className="border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
@@ -38,6 +72,8 @@ const TeacherModal = () => {
                   <input
                     type="email"
                     id="email"
+                    value={email}
+                    onChange={(e)=>setEmail(e.target.value)}
                     className="border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
@@ -46,6 +82,8 @@ const TeacherModal = () => {
                   <input
                     type="password"
                     id="password"
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)}
                     className="border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
@@ -55,6 +93,8 @@ const TeacherModal = () => {
                     type="date"
                     max={new Date().toISOString().split("T")[0]}
                     id="dateOfBirth"
+                    value={dateOfBirth}
+                    onChange={(e)=>setDateOfBirth(e.target.value)}
                     className="border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
@@ -63,6 +103,8 @@ const TeacherModal = () => {
                   <input
                     type="tel"
                     id="phone"
+                    value={phone}
+                    onChange={(e)=>setPhone(e.target.value)}
                     className="border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
@@ -71,6 +113,8 @@ const TeacherModal = () => {
                   <input
                     type="text"
                     id="address"
+                    value={address}
+                    onChange={(e)=>setAddress(e.target.value)}
                     className="border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
@@ -78,6 +122,8 @@ const TeacherModal = () => {
                   <label htmlFor="gender">Gender:</label>
                   <select
                     id="gender"
+                    value={gender}
+                    onChange={(e)=>setGender(e.target.value)}
                     className="border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   >
                     <option value="">Select Gender</option>

@@ -32,4 +32,22 @@ export class AuthController {
       return res.status(500).json({error: "Internal server error"});
     }
   }
+  getProfile = async(req: Request,res: Response):Promise<void | Response> => {
+    const {userId} = (req as any).user
+    try {
+      const user = await this.authSevice.getProfile(userId);
+      return res.status(200).json({user});
+    } catch (error) {
+      return res.status(500).json({error: "Internal server error"});
+    }
+  }
+
+  logoutUser = async(req: Request, res: Response):Promise<void | Response>=>{
+    try {
+      res.clearCookie("accessToken");
+      return res.status(200).json({message: "Logout successful"});
+    } catch (error) {
+      return res.status(500).json({error: "Internal server error"});
+    }
+  }
 }

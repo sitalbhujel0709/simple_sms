@@ -38,7 +38,17 @@ export class TeacherService {
     return teacher;
   }
   async getAllTeachers(): Promise<TeacherProfile[]> {
-    const teachers = await this.prisma.teacherProfile.findMany({});
+    const teachers = await this.prisma.teacherProfile.findMany({
+      include:{
+        user:{
+          select:{
+            name: true,
+            email: true,
+            role: true,
+          }
+        }
+      }
+    });
     return teachers;
   }
   async getTeacherById(id: number): Promise<getTeacherByIdResponse | null> {

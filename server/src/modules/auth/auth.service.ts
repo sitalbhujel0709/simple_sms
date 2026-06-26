@@ -43,4 +43,16 @@ export class AuthService {
     const {passwordHash:_,...userWithoutPassword} = user;
     return userWithoutPassword;
   }
+  async getProfile(id:number):Promise<Omit<User,"passwordHash">>{
+    const user = await this.prisma.user.findUnique({
+      where:{
+        id
+      }
+    })
+    if(!user){
+      throw new Error("User not found");
+    }
+    const {passwordHash:_,...userWithoutPassword} = user;
+    return userWithoutPassword;
+  }
 }
