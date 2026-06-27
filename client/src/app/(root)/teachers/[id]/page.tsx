@@ -1,12 +1,15 @@
-import StudentProfilePage from '@/components/pages/StudentProfilePage';
-import React from 'react'
+import TeacherProfilePage from '@/components/pages/TeacherProfilePage';
+import React from 'react';
 
-const page = () => {
+// In Next.js 15+, params is a Promise that needs to be awaited
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  
   return (
     <div>
-      <StudentProfilePage/>
+      <TeacherProfilePage teacherId={id} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;

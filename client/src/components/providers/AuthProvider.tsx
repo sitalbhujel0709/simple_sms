@@ -25,32 +25,32 @@ const AuthProvider = ({children}: {children: React.ReactNode})=>{
     
     useEffect(()=>{
         async function getUser(){
-            try{
-                axiosInstance.get('/auth/profile').then((res)=>{
-                    setUser(res.data.user)
-                    setIsAuthenticated(true)
-                    router.replace("/")
-                })
-            }catch(error){
-                console.log(error)
+            try {
+                const res = await axiosInstance.get('/auth/profile');
+                setUser(res.data.user);
+                setIsAuthenticated(true);
+            } catch(error) {
+                console.log(error);
+                setIsAuthenticated(false);
+                setUser(null);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         }
-        getUser()
-    },[])
+        getUser();
+    }, []);
 
-      const login = async(email: string, password: string) => {
-        try{
-            await axiosInstance.post('/auth/login',{email,password}).then((res)=>{
-                setUser(res.data.user)
-                setIsAuthenticated(true)
-                router.replace("/")
-            })
-        }catch(error){
-            console.log(error)
+    const login = async(email: string, password: string) => {
+        try {
+            const res = await axiosInstance.post('/auth/login', {email, password});
+            setUser(res.data.user);
+            setIsAuthenticated(true);
+            router.replace("/");
+        } catch(error) {
+            console.log(error);
+            throw error; // Rethrow so the login page can show toast errors
         }
-    }
+    };
     const logout = async() => {
         try{
             await axiosInstance.post('/auth/logout')

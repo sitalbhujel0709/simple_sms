@@ -9,5 +9,6 @@ classroomRouter.post("/", requireAuth, classroomController.createClassroom);
 classroomRouter.get("/", requireAuth, classroomController.getAllClassrooms);
 classroomRouter.get("/:id", requireAuth, classroomController.getClassroomById);
 classroomRouter.patch("/:id", requireAuth, classroomController.updateClassroom);
+classroomRouter.delete("/:id", requireAuth, classroomController.deleteClassroom);
 
 export default classroomRouter;

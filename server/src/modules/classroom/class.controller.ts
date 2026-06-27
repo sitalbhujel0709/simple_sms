@@ -51,4 +51,16 @@ export class ClassroomController {
       return res.status(500).json({ message: (error as Error).message });
     }
   }
+
+  deleteClassroom = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    try {
+      const deletedClassroom = await this.classroomService.deleteClassroom(
+        Number(id)
+      );
+      return res.status(200).json(deletedClassroom);
+    } catch (error) {
+      return res.status(500).json({ message: (error as Error).message });
+    }
+  }
 }

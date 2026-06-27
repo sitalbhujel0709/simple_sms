@@ -3,6 +3,7 @@ import { ChevronLeftIcon, House, PersonStanding, GraduationCap,School,BookOpen, 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { UserSidebarFooter } from "./UserSidebarFooter";
 
 const menuItems = [
   {
@@ -60,12 +61,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
               ))
             }
           </div>
-          <div className="absolute bottom-0 right-0 w-full p-2">
-            <div className="flex items-center gap-2 p-2 hover:bg-gray-200">
-              <CircleUserRound className="w-8 h-8" />
-              <span>Profile</span>
-            </div>
-          </div>
+          <UserSidebarFooter isSidebarOpen={isSidebarOpen} />
         </div>
       </div>
       {/* main content */}

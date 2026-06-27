@@ -58,4 +58,21 @@ export class SubjectService {
     });
     return updatedSubject;
   }
+
+  async deleteSubject(id: number): Promise<Subject> {
+    const existingSubject = await this.prisma.subject.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (!existingSubject) {
+      throw new Error("Subject not found");
+    }
+    const deletedSubject = await this.prisma.subject.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedSubject;
+  }
 }

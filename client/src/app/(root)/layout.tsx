@@ -4,6 +4,7 @@ import "../globals.css";
 import Sidebar from "@/components/sidebar";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { ProtectedRoute } from "@/components/providers/ProtectedRoute";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,10 +33,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-
-          <Sidebar>
-            {children}
-          </Sidebar>
+          <ProtectedRoute>
+            <Sidebar>
+              {children}
+            </Sidebar>
+          </ProtectedRoute>
           <ToastContainer />
         </AuthProvider>
       </body>

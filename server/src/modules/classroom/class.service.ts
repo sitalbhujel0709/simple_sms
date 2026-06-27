@@ -59,4 +59,20 @@ export class ClassroomService {
     });
     return updatedClassroom;
   }
+  async deleteClassroom(id: number): Promise<Class> {
+    const existingClassroom = await this.prisma.class.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (!existingClassroom) {
+      throw new Error("Classroom not found");
+    }
+    const deletedClassroom = await this.prisma.class.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedClassroom;
+  }
 }

@@ -1,19 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, use } from "react";
+import StudentEnrollmentsCard from "@/components/blocs/StudentEnrollmentsCard";
 
-export default function StudentProfile() {
+export default function StudentProfile({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  
   const subjects = ["Mathematics", "Science", "English"];
 
   const teachers = [
     { subject: "Mathematics", teacher: "Ram Sir" },
     { subject: "Science", teacher: "Hari Sir" },
-  ];
-
-  const history = [
-    { year: 2024, className: "8A" },
-    { year: 2025, className: "9A" },
-    { year: 2026, className: "10A" },
   ];
 
   const [currentClass, setCurrentClass] = useState("10A");
@@ -241,42 +238,8 @@ export default function StudentProfile() {
           </div>
         </div>
 
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-slate-800">
-            Enrollment History
-          </h2>
-
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="py-3 text-left text-sm font-semibold text-slate-600">
-                    Academic Year
-                  </th>
-                  <th className="py-3 text-left text-sm font-semibold text-slate-600">
-                    Class
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {history.map((item) => (
-                  <tr
-                    key={item.year}
-                    className="border-b border-slate-100 last:border-none"
-                  >
-                    <td className="py-4">{item.year}</td>
-                    <td className="py-4">
-                      <span className="rounded-md bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
-                        {item.className}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        {/* Real Enrollment API integration */}
+        <StudentEnrollmentsCard studentId={id} />
       </div>
     </div>
   );
